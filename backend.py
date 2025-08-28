@@ -15,7 +15,7 @@ load_dotenv()
 # Fetch API key
 api_key = os.getenv("GROQ_API_KEY")
 
-model = ChatGroq(api_key=api_key, model="qwen/qwen3-32b")
+model = ChatGroq(api_key=api_key, model="gemma2-9b-it")
 
 
 class ChatState(TypedDict):

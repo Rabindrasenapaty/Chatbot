@@ -25,16 +25,37 @@ if user_input:
     with st.chat_message("user"):
         st.text(user_input)
 
-    # ✅ FIX: store the response and pass config
-    response = chatbot.invoke(
-        {"messages": [HumanMessage(content=user_input)]},
-        config=config
-    )
+    # # ✅ FIX: store the response and pass config
+    # response = chatbot.invoke(
+    #     {"messages": [HumanMessage(content=user_input)]},
+    #     config=config
+    # )
 
-    # clean AI response
-    aimessage = clean_response(response["messages"][-1].content)
+    # # clean AI response
+    # aimessage = clean_response(response["messages"][-1].content)
+
+    # # Add AI message
+    # st.session_state["message_history"].append({"role": "assistant", "content": aimessage})
+    # with st.chat_message("assistant"):
+    #     st.text(aimessage)
+
+
+    # ✅ FIX: store the response and pass config
+    with st.chat_message('assistant'):
+        ai_message=st.write_stream(
+            message_chunk.content for message_chunk,metadata in chatbot.stream(
+            {"messages": [HumanMessage(content=user_input)]},
+            config=config,
+            stream_mode='messages'
+    )
+        )
+
+   
 
     # Add AI message
-    st.session_state["message_history"].append({"role": "assistant", "content": aimessage})
-    with st.chat_message("assistant"):
-        st.text(aimessage)
+    st.session_state["message_history"].append({"role": "assistant", "content": ai_message})
+
+
+
+
+    
